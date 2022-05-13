@@ -4,7 +4,6 @@ export interface People {
         mass: string;
         gender: string;
         homeworld: string;
-      
 }
 
 export interface PeopleResponse {

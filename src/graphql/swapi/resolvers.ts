@@ -2,13 +2,15 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import { PeopleResponse, People } from "./types";
+import { environment } from "../../../config/environment";
 const resolvers = {
+  
   Query: {
     people: async (_, { offset }): Promise<PeopleResponse> => {
 
-      let url = "https://swapi.dev/api/people/"
+      let url = environment.swBaseUrl
       if (offset) {
-        url = `https://swapi.dev/api/people/?page=${offset}`;
+        url = `${environment.swBaseUrl}?page=${offset}`;
       }
       
       axiosRetry(axios, { retries: 5 });
@@ -26,7 +28,7 @@ const resolvers = {
       };
     },
     search: async (_, { search }): Promise<People[]> => {
-      let url = `https://swapi.dev/api/peopl/?search=${search}`
+      let url = `${environment.swBaseUrl}?search=${search}`;
       axiosRetry(axios, { retries: 5 });
       const result = await axios(url);
       return result?.data?.results;
