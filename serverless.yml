@@ -19,7 +19,11 @@ functions:
           path: graphql
           method: get
           cors: true
+custom:
+  serverlessPluginTypescript:
+    tsConfigFileLocation: 'tsconfig.json'
 
 plugins:
+  - serverless-dotenv-plugin
   - serverless-plugin-typescript
   - serverless-offline
