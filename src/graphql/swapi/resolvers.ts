@@ -4,6 +4,7 @@ import axiosRetry from "axios-retry";
 import { PeopleResponse, People } from "./types";
 import { environment } from "../../../config/environment";
 const resolvers = {
+  
   Query: {
     people: async (_, { offset }): Promise<PeopleResponse> => {
 
