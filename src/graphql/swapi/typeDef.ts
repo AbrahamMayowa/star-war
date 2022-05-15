@@ -13,6 +13,7 @@ const typeDefs = gql`
     peoples: [PeopleItem]
     count: Int
     next: Int
+    prev: Int
   }
   
   type Query {
