@@ -9,9 +9,11 @@ import {
 const server = new ApolloServer({
   typeDefs: swapiTypeDefs,
   resolvers: swapiResolvers,
-  // dataSources: () => ({
-  //   starwarAPI: new StarWarAPI() as any,
-  // }),
+  dataSources: () => {
+    return {
+    starwarAPI: new StarWarAPI() as any
+    }
+  },
 });
 
 exports.graphqlHandler = server.createHandler();

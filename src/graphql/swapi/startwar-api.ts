@@ -1,4 +1,4 @@
-const { RESTDataSource } = require('apollo-datasource-rest');
+import  { RESTDataSource } from 'apollo-datasource-rest';
 
 
 class StarWarAPI extends RESTDataSource {
@@ -20,3 +20,5 @@ class StarWarAPI extends RESTDataSource {
   }
 
   export default StarWarAPI;
+
+  
