@@ -10,4 +10,5 @@ export interface PeopleResponse {
     peoples: People[];
     count: number;
     next: number | null;
+    prev: number | null;
 }
