@@ -1,7 +1,11 @@
 import { PeopleResponse, People } from "./types";
 const resolvers = {
   Query: {
-    people: async (_, { offset }, { dataSources }): Promise<PeopleResponse> => {
+    people: async (
+      _: any,
+      { offset }: { offset: number },
+      { dataSources }: any
+    ): Promise<PeopleResponse> => {
       let page = offset;
 
       // offset 0 value caused error
@@ -36,7 +40,11 @@ const resolvers = {
         throw new Error("Internal server error");
       }
     },
-    search: async (_, { search }, { dataSources }): Promise<People[]> => {
+    search: async (
+      _: any,
+      { search }: { search: string },
+      { dataSources }: any
+    ): Promise<People[]> => {
       try {
         const result = await dataSources.starwarAPI.search(search);
         return result?.results;
