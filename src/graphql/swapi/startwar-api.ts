@@ -1,22 +1,27 @@
-const { RESTDataSource } = require('apollo-datasource-rest');
-
+import  { RESTDataSource } from 'apollo-datasource-rest';
+import { environment } from "../../../config/environment";
 
 class StarWarAPI extends RESTDataSource {
     constructor() {
       super();
-      this.baseURL = 'https://swapi.dev/api/';
+      this.baseURL = environment.swBaseUrl;
     }
   
-    // async getMovie(id) {
-    //   return this.get(`movies/${encodeURIComponent(id)}`);
-    // }
-  
-    async people(offset?: number) {
-      const data = await this.get('people/', {
-        offset,
+    async search(searchValue: string) {
+      const data = await this.get('/', {
+        search: searchValue,
       });
-      return data.results;
+      return data;
+    }
+  
+    async people(offset: number) {
+      const data = await this.get('/', {
+        page: offset,
+      });
+      return data;
     }
   }
 
   export default StarWarAPI;
+
+  

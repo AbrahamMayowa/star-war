@@ -15,7 +15,7 @@ const typeDefs = gql`
     next: Int
     prev: Int
   }
-  
+
   type Query {
     people(offset: Int): People
     search(search: String!): [PeopleItem]

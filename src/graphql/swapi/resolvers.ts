@@ -1,55 +1,56 @@
-import axios from "axios";
-import axiosRetry from "axios-retry";
 import { PeopleResponse, People } from "./types";
-import { environment } from "../../../config/environment";
 const resolvers = {
-  
   Query: {
-    people: async (_, { offset }): Promise<PeopleResponse> => {
+    people: async (
+      _: any,
+      { offset }: { offset: number },
+      { dataSources }: any
+    ): Promise<PeopleResponse> => {
+      let page = offset;
 
-      let url = environment.swBaseUrl
-      if (offset) {
-        url = `${environment.swBaseUrl}?page=${offset}`;
+      // offset 0 value caused error
+      if (offset < 1) {
+        page = 1;
       }
+
       try {
-        axiosRetry(axios, { retries: 5 });
-      const result = await axios(url);
-      let next = null;
-      let prev = null;
-      const resultNext = result?.data?.next;
-      const resultPrev = result?.data?.previous;
+        const result = await dataSources.starwarAPI.people(page);
+        let next = null;
+        let prev = null;
+        const resultNext = result?.next;
+        const resultPrev = result?.previous;
 
-      if (resultNext) {
-        const splitedNext = resultNext?.split("=");
-        next = splitedNext[splitedNext.length - 1];
-      }
+        if (resultNext) {
+          const splitedNext = resultNext?.split("=");
+          next = splitedNext[splitedNext.length - 1];
+        }
 
-      if (resultPrev) {
-        const splitedPrev = resultPrev?.split("=");
-        prev = splitedPrev[splitedPrev.length - 1];
-      }
+        if (resultPrev) {
+          const splitedPrev = resultPrev?.split("=");
+          prev = splitedPrev[splitedPrev.length - 1];
+        }
 
-      return {
-        peoples: result?.data?.results,
-        count: result?.data?.count,
-        next,
-        prev
-      };
+        return {
+          peoples: result?.results,
+          count: result?.count,
+          next,
+          prev,
+        };
       } catch (error) {
-        throw  new Error('Internal server error');
+        throw new Error("Internal server error");
       }
-      
     },
-    search: async (_, { search }): Promise<People[]> => {
-      let url = `${environment.swBaseUrl}?search=${search}`;
+    search: async (
+      _: any,
+      { search }: { search: string },
+      { dataSources }: any
+    ): Promise<People[]> => {
       try {
-        axiosRetry(axios, { retries: 5 });
-        const result = await axios(url);
-        return result?.data?.results;
+        const result = await dataSources.starwarAPI.search(search);
+        return result?.results;
       } catch (error) {
-        throw  new Error('Internal server error');
+        throw new Error("Internal server error");
       }
-      
     },
   },
 };
